@@ -1251,12 +1251,61 @@ document.getElementById('topImport').addEventListener('click',()=>document.getEl
  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();
 })();
 </script>
-<script id="pwa-v120-service-worker">
+<style id="pwa-v121-update-style">
+#pwa-update-banner{position:fixed;z-index:100000;left:12px;right:12px;bottom:calc(82px + env(safe-area-inset-bottom,0px));max-width:560px;margin:0 auto;padding:13px 14px;background:#172b50;color:#f1f6ff;border:1px solid #71d6ba;border-radius:15px;box-shadow:0 10px 35px #0005;font-family:inherit;display:none;align-items:center;gap:10px}
+#pwa-update-banner.pwa-show{display:flex}
+#pwa-update-banner .pwa-update-text{flex:1;min-width:0;font-size:13px;line-height:1.35}
+#pwa-update-banner .pwa-update-text strong{display:block;font-size:14px;margin-bottom:3px}
+#pwa-update-banner button{font:inherit;cursor:pointer;border-radius:9px;min-height:38px;padding:7px 10px}
+#pwa-update-apply{background:#75dfbf;color:#12372d;border:0;font-weight:700;white-space:nowrap}
+#pwa-update-later{background:transparent;color:#eaf3ff;border:1px solid #7087aa}
+@media(min-width:761px){#pwa-update-banner{bottom:18px}}
+</style>
+<div id="pwa-update-banner" role="status" aria-live="polite" aria-label="Mise à jour de l'application disponible">
+ <div class="pwa-update-text"><strong>Nouvelle version disponible</strong>Enregistre tes opérations avant de mettre à jour.</div>
+ <button id="pwa-update-later" type="button">Plus tard</button>
+ <button id="pwa-update-apply" type="button">Mettre à jour</button>
+</div>
+<script id="pwa-v121-updates">
 (function(){
-  if(!('serviceWorker' in navigator) || !window.isSecureContext)return;
-  window.addEventListener('load',function(){
-    navigator.serviceWorker.register('./sw.js',{scope:'./'}).catch(function(err){console.warn('Mode hors connexion indisponible :',err);});
-  });
+ 'use strict';
+ if(!('serviceWorker' in navigator)||!window.isSecureContext)return;
+ let reg=null, pending=null, applying=false, hadController=!!navigator.serviceWorker.controller;
+ const banner=document.getElementById('pwa-update-banner');
+ const showWaiting=()=>{
+  if(!reg||!reg.waiting||!navigator.serviceWorker.controller||applying)return;
+  pending=reg.waiting;
+  banner.classList.add('pwa-show');
+ };
+ document.getElementById('pwa-update-later').addEventListener('click',()=>banner.classList.remove('pwa-show'));
+ document.getElementById('pwa-update-apply').addEventListener('click',()=>{
+  if(!pending)return;
+  applying=true;
+  document.getElementById('pwa-update-apply').disabled=true;
+  document.getElementById('pwa-update-apply').textContent='Mise à jour…';
+  pending.postMessage({type:'SKIP_WAITING'});
+ });
+ navigator.serviceWorker.addEventListener('controllerchange',()=>{
+  if(applying&&hadController){window.location.reload();return;}
+  hadController=true;
+ });
+ function check(){if(reg&&navigator.onLine)reg.update().catch(()=>{});}
+ window.addEventListener('load',()=>{
+  navigator.serviceWorker.register('./sw.js',{scope:'./'}).then(r=>{
+   reg=r;
+   if(r.waiting)showWaiting();
+   r.addEventListener('updatefound',()=>{
+    const worker=r.installing;
+    if(!worker)return;
+    worker.addEventListener('statechange',()=>{if(worker.state==='installed')showWaiting();});
+   });
+   check();
+   window.addEventListener('focus',check);
+   document.addEventListener('visibilitychange',()=>{if(!document.hidden)check();});
+   window.addEventListener('online',check);
+   setInterval(check,60*60*1000);
+  }).catch(err=>console.warn('Mode hors connexion indisponible :',err));
+ });
 })();
 </script>
 </body></html>
