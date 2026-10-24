@@ -1,0 +1,22 @@
+BUDGET FAMILIAL — PWA V1.20
+================================
+
+Cette version est basée sur Budget Familial Mobile V1.19.
+
+INSTALLATION SUR IPHONE (Safari)
+1. Décompresser cette archive.
+2. Publier TOUS les fichiers et le dossier icons/ ensemble, sans modifier leur arborescence, sur un hébergement HTTPS (ex. GitHub Pages, Netlify).
+3. Ouvrir l’URL publique de index.html dans Safari sur l’iPhone.
+4. Toucher Partager > Sur l’écran d’accueil > Ajouter.
+5. Ouvrir Budget Familial depuis l’icône installée.
+6. Importer la sauvegarde JSON de l’ancienne application depuis la rubrique Sauvegardes, si nécessaire.
+
+IMPORTANT
+- Ouvrir directement index.html en file:// ne permet PAS d’installer la PWA avec le service worker.
+- L’hébergement HTTPS est nécessaire.
+- Le mode hors connexion fonctionne après une première visite en ligne réussie et la mise en cache.
+- Le stockage local Safari et celui de l’application installée peuvent être séparés.
+- Exporter régulièrement une sauvegarde JSON : le stockage du navigateur peut être effacé.
+- Ne pas publier vos sauvegardes JSON ni vos données financières sur l’hébergement public.
+- Un hébergement public rend le CODE de l’application accessible, mais aucune donnée personnelle n’est incluse dans ce paquet.
+- Pour les mises à jour, conserver la même adresse HTTPS et le même chemin d’application.
