@@ -1,5 +1,5 @@
 /* Budget Familial PWA V1.22 — mises à jour avec validation, hors connexion. */
-const CACHE='budget-familial-pwa-v1-23';
+const CACHE='budget-familial-pwa-v1-24';
 const PREFIX='budget-familial-pwa-';
 const ASSETS=['./','./index.html','./manifest.webmanifest','./icons/icon-180.png','./icons/icon-192.png','./icons/icon-512.png'];
 self.addEventListener('install',event=>{
