@@ -973,9 +973,10 @@ html[data-theme="day"] .topbar .top-month .calendar-icon{color:#315a95!important
 <section aria-label="Synthèse mensuelle" class="cards"><div class="card"><div class="muted">Revenus total</div><div class="value" id="income">—</div><div class="hint" id="incomeExpected"></div></div><div class="card"><div class="muted">Dépenses</div><div class="value" id="spent">—</div><div class="hint" id="spentExpected"></div></div><div class="card"><div class="muted">Reste</div><div class="value" id="remaining">—</div><div class="hint"></div></div><div class="card"><div class="muted">Reste final</div><div class="value" id="real">—</div><div class="hint" id="realNote"></div></div><div class="card" style="display:none"><div class="muted">Solde prévisionnel</div><div class="value" id="forecast">—</div><div class="hint">Après opérations prévues</div></div></section>
 <section class="panel pad"><div class="between"><h2>Vue d'ensemble</h2><span class="pill" id="summary"></span></div><div class="progress"><div class="bar" id="bar"></div></div><div class="between muted"><span id="progressText"></span><span id="progressPercent"></span></div><div class="alert hidden" id="warning" style="margin-top:12px"></div></section>
 <section class="grid2"><div class="panel pad"><div class="between"><h2>Enveloppes variables</h2><span class="pill" id="envelopeTotal"></span></div><div id="envelopes"></div><p class="hint">Les budgets d'enveloppes sont des objectifs, pas des sorties de trésorerie.</p></div><div class="panel pad" style="display:none"><div class="between"><h2>Comparaison mensuelle</h2><span class="pill">6 mois</span></div><div aria-label="Revenus et sorties réalisés sur six mois" class="chart" id="chart" role="img"></div><p class="legend"><span class="dot" style="background:#5476ce"></span>Revenus <span class="dot" style="background:#e3a169;margin-left:12px"></span>Sorties réalisées</p><div class="hint" id="comparison"></div></div></section>
-<section class="panel"><details class="section" id="settingsSection"><summary><span>⚙️ Paramètres du mois et solde initial</span></summary><div class="inside"><p class="hint">Pour connaître un solde bancaire réel, renseignez le solde de départ du mois, après avoir vérifié les opérations qu'il couvre. Il n'est jamais reporté automatiquement.</p><div class="period-config"><h3>Début de la période budgétaire</h3><p class="hint">Indiquez la date réelle de réception du salaire qui finance ce budget. La fin est automatiquement la veille du début du budget suivant. Les périodes restent continues.</p><div class="form"><div class="field half"><label for="periodStart">Début du budget affiché</label><input id="periodStart" type="date"/></div><button class="primary half" id="savePeriod" type="button">Enregistrer cette date</button></div><p class="hint" id="periodRange"></p></div><form class="form" id="settingsForm"><div class="field half"><label for="opening">Solde initial du mois (€) — facultatif</label><input id="opening" placeholder="Non renseigné" step="0.01" type="number"/></div><div class="field half"><label for="openingNote">Note sur le solde initial</label><input id="openingNote" maxlength="180" placeholder="Ex. Solde bancaire au 1er du mois"/></div><button class="primary wide" type="submit">Enregistrer le solde initial</button></form><div class="hint" id="openingInfo" style="margin-top:10px"></div><div id="pwa-version-panel" style="margin-top:20px;padding:16px;border:1px solid var(--line, #64748b);border-radius:14px">
+<section class="panel"><details class="section" id="settingsSection"><summary><span>⚙️ Paramètres du mois et solde initial</span></summary><div class="inside"><p class="hint">Pour connaître un solde bancaire réel, renseignez le solde de départ du mois, après avoir vérifié les opérations qu'il couvre. Il n'est jamais reporté automatiquement.</p><div class="period-config"><h3>Début de la période budgétaire</h3><p class="hint">Indiquez la date réelle de réception du salaire qui finance ce budget. La fin est automatiquement la veille du début du budget suivant. Les périodes restent continues.</p><div class="form"><div class="field half"><label for="periodStart">Début du budget affiché</label><input id="periodStart" type="date"/></div><button class="primary half" id="savePeriod" type="button">Enregistrer cette date</button></div><p class="hint" id="periodRange"></p></div><form class="form" id="settingsForm"><div class="field half"><label for="opening">Solde initial du mois (€) — facultatif</label><input id="opening" placeholder="Non renseigné" step="0.01" type="number"/></div><div class="field half"><label for="openingNote">Note sur le solde initial</label><input id="openingNote" maxlength="180" placeholder="Ex. Solde bancaire au 1er du mois"/></div><button class="primary wide" type="submit">Enregistrer le solde initial</button></form><div class="hint" id="openingInfo" style="margin-top:10px"></div></div></details></section>
+<section class="panel"><details class="section" id="versionSection"><summary><span>🔄 Version de l’application</span></summary><div class="inside"><div id="pwa-version-panel" style="margin-top:20px;padding:16px;border:1px solid var(--line, #64748b);border-radius:14px">
  <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap">
-  <strong>Version de l’application</strong><strong id="pwa-version-label">V1.22</strong>
+  <strong>Version de l’application</strong><strong id="pwa-version-label">V1.23</strong>
  </div>
  <p class="hint" id="pwa-version-status" role="status" aria-live="polite" style="margin:10px 0">Vérification non effectuée.</p>
  <button type="button" id="pwa-version-check" class="primary">Vérifier les mises à jour</button>
@@ -1087,7 +1088,7 @@ function captureUI(){ui.livrets=ui.livrets||{};document.querySelectorAll('detail
 ui.view=activeView;ui.month=monthKey();
 for(const d of document.querySelectorAll('details[data-type]'))ui.sections[d.dataset.type]=d.open;
 for(const d of document.querySelectorAll('details[data-envelope]'))ui.envelopes[d.dataset.envelope]=d.open;
-for(const id of ['settingsSection','backupSection']){const d=document.getElementById(id);if(d)ui.sections[id]=d.open}
+for(const id of ['settingsSection','versionSection','backupSection']){const d=document.getElementById(id);if(d)ui.sections[id]=d.open}
 }
 function saveUI(){captureUI();try{localStorage.setItem(UI_KEY,JSON.stringify(ui));return true}catch(e){alert('Impossible de mémoriser les volets : '+e.message);return false}}
 
@@ -1097,6 +1098,7 @@ const cards=main.querySelector('.cards');
 const overview=cards.nextElementSibling;
 const grid=overview.nextElementSibling;
 const settings=document.getElementById('settingsSection').closest('.panel');
+const versionPanel=document.getElementById('versionSection').closest('.panel');
 const sections=document.getElementById('sections');
 const history=document.getElementById('historyPanel');
 const backup=document.getElementById('backupSection').closest('.panel');
@@ -1107,6 +1109,7 @@ function apply(){
 const dash=activeView==='dashboard';
 for(const el of [cards,overview,grid])el.classList.toggle('view-hidden',!dash);
 settings.classList.toggle('view-hidden',activeView!=='settings');
+versionPanel.classList.toggle('view-hidden',activeView!=='settings');
 history.classList.toggle('view-hidden',activeView!=='saving');
 backup.classList.toggle('view-hidden',activeView!=='backup');
 note.classList.toggle('view-hidden',activeView!=='backup');
@@ -1119,7 +1122,10 @@ panel.classList.toggle('view-hidden',!selected);
 // Les formulaires restent visibles ; seuls les récapitulatifs sont déroulants.
 }
 
-if(activeView==='settings')document.getElementById('settingsSection').open=ui.sections.settingsSection!==false;
+if(activeView==='settings'){
+ document.getElementById('settingsSection').open=ui.sections.settingsSection!==false;
+ document.getElementById('versionSection').open=ui.sections.versionSection===true;
+}
 if(activeView==='backup')document.getElementById('backupSection').open=ui.sections.backupSection!==false;
 heading.innerHTML='<h2>'+labels[activeView][0]+'</h2>';
 for(const b of document.querySelectorAll('[data-view]')){let on=b.dataset.view===activeView;b.classList.toggle('active',on);b.setAttribute('aria-current',on?'page':'false')}
@@ -1127,7 +1133,7 @@ for(const b of document.querySelectorAll('[data-view]')){let on=b.dataset.view==
 document.querySelectorAll('[data-view]').forEach(b=>b.addEventListener('click',()=>{saveUI();activeView=b.dataset.view;apply();saveUI();window.scrollTo({top:0,behavior:'smooth'})}));
 // Capturer immédiatement le choix d'ouverture/fermeture avant toute navigation.
 document.addEventListener('click',e=>{const summary=e.target.closest('details[data-type] > summary, details[data-envelope] > summary');if(!summary)return;const d=summary.parentElement;const target=d.dataset.type?ui.sections:ui.envelopes;const key=d.dataset.type||d.dataset.envelope;target[key]=!d.open;try{localStorage.setItem(UI_KEY,JSON.stringify(ui))}catch(_){}},true);
-document.addEventListener('toggle',e=>{const d=e.target;if(!(d instanceof HTMLDetailsElement))return;if(d.dataset.type)ui.sections[d.dataset.type]=d.open;if(d.dataset.envelope)ui.envelopes[d.dataset.envelope]=d.open;if(d.dataset.livret){ui.livrets=ui.livrets||{};ui.livrets[d.dataset.livret]=d.open;window.__budgetLivrets=ui.livrets;}if(['settingsSection','backupSection'].includes(d.id))ui.sections[d.id]=d.open;try{localStorage.setItem(UI_KEY,JSON.stringify(ui))}catch(_){}},true);
+document.addEventListener('toggle',e=>{const d=e.target;if(!(d instanceof HTMLDetailsElement))return;if(d.dataset.type)ui.sections[d.dataset.type]=d.open;if(d.dataset.envelope)ui.envelopes[d.dataset.envelope]=d.open;if(d.dataset.livret){ui.livrets=ui.livrets||{};ui.livrets[d.dataset.livret]=d.open;window.__budgetLivrets=ui.livrets;}if(['settingsSection','versionSection','backupSection'].includes(d.id))ui.sections[d.id]=d.open;try{localStorage.setItem(UI_KEY,JSON.stringify(ui))}catch(_){}},true);
 function manualSave(){const okData=persist();const okUI=saveUI();const label=document.getElementById('saveLocalStatus');if(okData&&okUI){const when=new Date().toLocaleString('fr-FR');if(label)label.textContent='✓ Sauvegarde locale confirmée le '+when+'. Vos données et l’état des volets seront retrouvés dans ce navigateur, tant que son stockage est conservé.';alert('✓ Sauvegarde locale confirmée.\nDonnées et volets mémorisés sur cet ordinateur dans ce navigateur.\nPensez également à exporter votre sauvegarde JSON.')}}
 for(const id of ['saveLocal','saveLocalBackup'])document.getElementById(id)?.addEventListener('click',manualSave);
 const originalRender=render;
@@ -1321,7 +1327,7 @@ document.getElementById('topImport').addEventListener('click',()=>document.getEl
  const status=document.getElementById('pwa-version-status');
  const label=document.getElementById('pwa-version-label');
  if(!button||!status||!label)return;
- const CURRENT='1.22';
+ const CURRENT='1.23';
  const setStatus=(message)=>{status.textContent=message;};
  async function checkVersion(){
   button.disabled=true;
@@ -1344,9 +1350,9 @@ document.getElementById('topImport').addEventListener('click',()=>document.getEl
    if(remote>local){
     setStatus('Version V'+match[1]+'.'+match[2]+' publiée. Si la notification de mise à jour apparaît, utilise « Mettre à jour ». Sinon, ferme puis rouvre l’application.');
    }else if(remote===local){
-    setStatus('V1.22 est la dernière version publiée. Ton interface est à jour.');
+    setStatus('V1.23 est la dernière version publiée. Ton interface est à jour.');
    }else{
-    setStatus('Version installée : V1.22. La version publiée semble plus ancienne.');
+    setStatus('Version installée : V1.23. La version publiée semble plus ancienne.');
    }
    if(registration.waiting&&navigator.serviceWorker.controller){
     setStatus('Une mise à jour est prête : utilise le bouton « Mettre à jour » dans la notification.');
